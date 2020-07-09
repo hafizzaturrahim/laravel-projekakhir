@@ -20,8 +20,8 @@ class CreateAnswerTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('id_question');
             $table->foreign('id_question')->references('id_question')->on('questions');
-            $table->unsignedBigInteger('id_user');
-            $table->foreign('id_user')->references('id_user')->on('users');
+            $table->unsignedBigInteger('id');
+            $table->foreign('id')->references('id')->on('users');
         });
     }
 

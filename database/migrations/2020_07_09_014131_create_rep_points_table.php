@@ -18,8 +18,8 @@ class CreateRepPointsTable extends Migration
             $table->string('transaction');
             $table->Integer('point');
             $table->timestamps();
-            $table->unsignedBigInteger('id_user');
-            $table->foreign('id_user')->references('id_user')->on('users');
+            $table->unsignedBigInteger('id');
+            $table->foreign('id')->references('id')->on('users');
         });
     }
 

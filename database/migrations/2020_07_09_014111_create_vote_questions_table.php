@@ -15,12 +15,12 @@ class CreateVoteQuestionsTable extends Migration
     {
         Schema::create('vote_questions', function (Blueprint $table) {
             $table->unsignedBigInteger('id_voter');
-            $table->foreign('id_voter')->references('id_user')->on('users');
+            $table->foreign('id_voter')->references('id')->on('users');
             $table->unsignedBigInteger('id_question');
             $table->foreign('id_question')->references('id_question')->on('questions');
             $table->Integer('value');
-            $table->unsignedBigInteger('id_user');
-            $table->foreign('id_user')->references('id_user')->on('questions');
+            $table->unsignedBigInteger('id');
+            $table->foreign('id')->references('id')->on('questions');
             $table->primary(['id_voter', 'id_question']);
         });
     }

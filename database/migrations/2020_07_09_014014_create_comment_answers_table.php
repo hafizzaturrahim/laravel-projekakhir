@@ -17,8 +17,10 @@ class CreateCommentAnswersTable extends Migration
             $table->bigIncrements('id_comment');
             $table->string('content');
             $table->timestamps();
-            $table->unsignedBigInteger('id_user');
-            $table->foreign('id_user')->references('id_user')->on('users');
+            $table->unsignedBigInteger('id_answer');
+            $table->foreign('id_answer')->references('id_answer')->on('answers');
+            $table->unsignedBigInteger('id');
+            $table->foreign('id')->references('id')->on('users');
         });
     }
 
