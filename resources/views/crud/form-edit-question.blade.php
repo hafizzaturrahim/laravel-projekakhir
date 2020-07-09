@@ -24,7 +24,7 @@
 			</div>
 			<div class="form-group">
 				<label for="tags">Tags(pisahkan dengan spasi) :</label>
-				<input type="text" class="form-control" id="tags" name="tags" placeholder="Masukkan tag pertanyaan" value="{{implode(' ', $question->tags)}}">
+				<input type="text" class="form-control" id="tags" name="tags" placeholder="Masukkan tag pertanyaan" value="<?php echo implode(' ', $question->tags); ?>">
 			</div>
 			<button type="submit" class="btn btn-primary">Simpan</button>
 		</form>

@@ -43,7 +43,7 @@
 						<form action="/pertanyaan/{{$item->id_question}}" method="POST" style="display: inline;">
 							@csrf
 							@method('DELETE')
-							<button type="submit" class="btn btn-sm btn-danger"> <i class="fas fa fa-trash"></i></button>
+							<button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Anda yakin ?')"> <i class="fas fa fa-trash"></i></button>
 						</form>
 					</td>
 				</tr>

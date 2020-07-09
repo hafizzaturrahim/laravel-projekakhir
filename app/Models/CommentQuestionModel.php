@@ -14,5 +14,11 @@ class CommentQuestionModel{
 		$new_comment = DB::table('comment_questions')->insert($data);
 		return $new_comment;
 	}
+
+	public static function delete($id){
+		$deleted = DB::table('comment_questions')->where('id_question',$id)->delete();
+		return $deleted;
+	}
+
 }
 ?>
