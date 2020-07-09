@@ -24,20 +24,27 @@ Route::get('/data-tables', function () {
 });
 */
 
-Route::get('/pertanyaan','QuestionController@index');
-Route::get('/pertanyaan/create','QuestionController@create');
-Route::post('/pertanyaan','QuestionController@store');
-Route::get('/jawaban/{id}','AnswerController@index');
-Route::post('/jawaban/{id}','AnswerController@store');
+// Route pertanyaan
+Route::get('/pertanyaan','QuestionController@index'); // daftar pertanyaan
+Route::get('/pertanyaan/create','QuestionController@create'); // buat pertanyaan
+Route::post('/pertanyaan','QuestionController@store'); // store pertanyaan baru
+Route::get('/pertanyaan/{id}/edit','QuestionController@edit'); // edit pertanyaan
+Route::put('/pertanyaan/{id}','QuestionController@update'); // store pertanyaan telah diedit
+Route::delete('/pertanyaan/{id}','QuestionController@destroy'); // hapus pertanyaan
+
+Route::get('/jawaban/{id}','AnswerController@index'); // daftar jawaban berdasar pertanyaan tertentu
+Route::post('/jawaban/{id}','AnswerController@store'); // buat jawaban baru
 
 Route::put('/pertanyaan/{id_question}/vote','VoteQuestionController@store');
 Route::put('/jawaban/{id_answer}/vote','VoteAnswerController@store');
 
-Route::get('/pertanyaan/{id}/edit','QuestionController@edit');
-Route::put('/pertanyaan/{id}','QuestionController@update');
-Route::delete('/pertanyaan/{id}','QuestionController@destroy');
 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// text editor
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+     \UniSharp\LaravelFilemanager\Lfm::routes();
+ });

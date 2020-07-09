@@ -29,12 +29,12 @@ class AnswerController extends Controller
 	}
 
 	public function store(Request $request,$id){
-		$ses = 3;
+		$ses = 1;
     	$description = $request->input('description');
     	$data = array(
     		'id_question'=>$id,
     		'description'=>$description,
-    		'id_user' => $ses
+    		'id' => $ses
     	);
     	$question = AnswerModel::save($data);
     	return redirect()->action('AnswerController@index',$id);

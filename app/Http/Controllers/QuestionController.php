@@ -20,14 +20,22 @@ class QuestionController extends Controller
     public function store(Request $request){
     	$title = $request->input('title');
     	$description = $request->input('description');
+        $tags = $request->input('tags');
     	$data = array(
             'title'=>$title,
             'description'=>$description,
-            'id_user'=>1
+            'tags'=>$tags,
+            'id'=>1
         );
-        //untuk tanggal sudah otomatis
+        //untuk tanggal ada di model
     	$question = QuestionModel::save($data);
     	return redirect()->action('QuestionController@index');
+    }
+
+    public function show($id) {
+        $question = QuestionModel::get_single_data($id);
+        $answer = AnswerModel::get_data($id);
+        return view('crud.show', compact('question', 'answer'));
     }
 
     public function edit($id){

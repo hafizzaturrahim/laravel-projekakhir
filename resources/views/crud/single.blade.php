@@ -21,24 +21,24 @@
 			<div class="user-block">
 				<img class="img-circle img-bordered-sm" src="{{ asset('/adminlte/dist/img/user4-128x128.jpg') }}" alt="user image">
 				<span class="username">
-					<a href="#">ID User : {{$data['question']->id_user}}</a>
-					<a href="#">Reputation Point : {{$data['question']->point}} </a>
+					<a href="#">User : {{$data['question']->name}}</a>
+					<a href="#">[Reputation Point : {{$data['question']->point}}]</a>
 				</span>
 				<span class="description"> <i class="nav-icon far fa-calendar-alt"></i> {{$data['question']->created_at}}  <i> (last edited : {{$data['question']->updated_at}})</i></span>
 			</div>
 			<!-- /.user-block -->
 			<p>
-				{{$data['question']->description}}
+				{!! $data['question']->description !!}
 			</p>
 			<?php 
 			$ses = 2;
-			if ($ses != $data['question']->id_user) { ?>
+			if ($ses != $data['question']->id) { ?>
 				<form action="/pertanyaan/{{$data['question']->id_question}}/vote" method="POST">
 					<p>
 						<span class="float-right">
 							@csrf
 							@method('PUT')
-							<input type="hidden" name="id" value="{{$data['question']->id_user}}">
+							<input type="hidden" name="id" value="{{$data['question']->id}}">
 							<button type="submit" class="btn btn-outline-success text-sm ml-2" name="val" value="up"><span class="text-sm mr-1">{{$data['like']}}</span>| <i class="far fa-thumbs-up mr-1 ml-1"></i> Like</button>
 
 							@if ($data['count'] < 15)
@@ -67,8 +67,8 @@
 			<div class="user-block">
 				<img class="img-circle img-bordered-sm" src="{{ asset('/adminlte/dist/img/user4-128x128.jpg') }}" alt="user image">
 				<span class="username">
-					<a href="#">ID User : {{$item->id_user}} </a>
-					<a href="#">Reputation Point : {{$item->point}} </a>
+					<a href="#">ID User : {{$item->id}} </a>
+					<a href="#">[Reputation Point : {{$item->point}}]</a>
 				</span>
 				<span class="description"><i class="nav-icon far fa-calendar-alt"></i> {{$item->created_at}}  <i> (last edited : {{$item->updated_at}})</i></span>
 			</div>
@@ -78,13 +78,13 @@
 			</p>
 			<?php
 			$ses = 2;
-			if ($ses != $item->id_user) { ?>
+			if ($ses != $item->id) { ?>
 				<form action="/jawaban/{{$item->id_answer}}/vote" method="POST">
 					<p>
 						<span class="float-right">
 							@csrf
 							@method('PUT')
-							<input type="hidden" name="id" value="{{$item->id_user}}">
+							<input type="hidden" name="id" value="{{$item->id}}">
 							<input type="hidden" name="id_q" value="{{$data['question']->id_question}}">
 
 							<button type="submit" class="btn btn-outline-success text-sm ml-2" name="val" value="up"><span class="text-sm mr-1">{{$item->like}}</span>| <i class="far fa-thumbs-up mr-1 ml-1"></i> Like</button>

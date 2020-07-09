@@ -18,7 +18,7 @@
 
 	<!-- /.card-header -->
 	<div class="card-body">
-		<table id="example1" class="table table-bordered table-striped">
+		<table id="example1" class="table table-bordered table-striped text-center">
 			<thead>
 				<tr>
 					<th>No.</th>
@@ -33,12 +33,14 @@
 				@foreach ($question as $item)
 				<tr>
 					<td>{{$loop->iteration}} </td>
-					<td><a href="/jawaban/{{$item->id_question}} ">{{$item->title}}</a></td>
-					<td>{{$item->description}}</td>
-					<td>{{$item->created_at}}</td>
-					<td>{{$item->updated_at}}</td>
-					<td><a class="btn btn-sm btn-warning" href="/pertanyaan/{{$item->id_question}}/edit">Edit</a>
-						<form action="/pertanyaan/{{$item->id_question}}" method="POST" >
+					<td><a href="/jawaban/{{$item->id_question}} ">{{ $item->title }}</a></td>
+					<td class="text-left">{!! $item->description !!}</td>
+					<td>{{ $item->created_at }}</td>
+					<td>{{ $item->updated_at }}</td>
+					<td>
+						<a class="btn btn-sm btn-primary mr-2" href="/jawaban/{{$item->id_question}}">Show</a>
+						<a class="btn btn-sm btn-warning mr-2" href="/pertanyaan/{{$item->id_question}}/edit">Edit</a>
+						<form action="/pertanyaan/{{$item->id_question}}" method="POST" style="display: inline;">
 							@csrf
 							@method('DELETE')
 							<button type="submit" class="btn btn-sm btn-danger"> <i class="fas fa fa-trash"></i></button>

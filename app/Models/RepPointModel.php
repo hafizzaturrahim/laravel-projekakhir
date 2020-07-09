@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\DB;
 
 class RepPointModel{
 	public static function get_point_by_id($id_user){
-		$question = DB::table('rep_points')->where('id_user',$id_user)->sum('point');
+		$question = DB::table('rep_points')->where('id',$id_user)->sum('point');
 		return $question;
 	}
 
