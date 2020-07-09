@@ -37,22 +37,13 @@ class AnswerController extends Controller
 	}
 
 	public function store(Request $request,$id){
-<<<<<<< HEAD
-		$ses = 1;
-=======
         $user = Auth::user();
         $id_user = Auth::id();
-
->>>>>>> origin
     	$description = $request->input('description');
     	$data = array(
     		'id_question'=>$id,
     		'description'=>$description,
-<<<<<<< HEAD
-    		'id' => $ses
-=======
     		'id' => $id_user
->>>>>>> origin
     	);
     	$question = AnswerModel::save($data);
     	return redirect()->action('AnswerController@index',$id);

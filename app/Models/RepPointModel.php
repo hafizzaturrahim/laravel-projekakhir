@@ -3,13 +3,9 @@ namespace App\Models;
 use Illuminate\Support\Facades\DB;
 
 class RepPointModel{
-<<<<<<< HEAD
-	public static function get_point_by_id($id_user){
-		$question = DB::table('rep_points')->where('id',$id_user)->sum('point');
-=======
+
 	public static function get_point_by_id($id){
 		$question = DB::table('rep_points')->where('id',$id)->sum('point');
->>>>>>> origin
 		return $question;
 	}
 

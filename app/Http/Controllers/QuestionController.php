@@ -32,15 +32,8 @@ class QuestionController extends Controller
     	$data = array(
             'title'=>$title,
             'description'=>$description,
-<<<<<<< HEAD
-            'tags'=>$tags,
-            'id'=>1
-        );
-        //untuk tanggal ada di model
-=======
             'id'=>$id_user
         );
->>>>>>> origin
     	$question = QuestionModel::save($data);
     	return redirect()->action('QuestionController@index');
     }
