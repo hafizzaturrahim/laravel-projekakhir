@@ -35,6 +35,9 @@ Route::delete('/pertanyaan/{id}','QuestionController@destroy'); // hapus pertany
 Route::get('/jawaban/{id}','AnswerController@index'); // daftar jawaban berdasar pertanyaan tertentu
 Route::post('/jawaban/{id}','AnswerController@store'); // buat jawaban baru
 
+Route::put('/komentar/pertanyaan/{id}','CommentQuestionController@store'); // buat komentar pertanyaan
+Route::put('/komentar/jawaban/{id}','CommentAnswerController@store'); // buat komentar jawaban
+
 Route::put('/pertanyaan/{id_question}/vote','VoteQuestionController@store');
 Route::put('/jawaban/{id_answer}/vote','VoteAnswerController@store');
 

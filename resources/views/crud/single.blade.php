@@ -44,7 +44,7 @@
 			if ($ses != $data['question']->id) { ?>
 				<form action="/pertanyaan/{{$data['question']->id_question}}/vote" method="POST">
 					<p>
-						<span class="float-right">
+						<span class="float-right mb-2">
 							@csrf
 							@method('PUT')
 							<input type="hidden" name="id" value="{{$data['question']->id}}">
@@ -59,6 +59,26 @@
 					</p>
 				</form>
 			<?php }	?>
+
+			<!-- Komentar Pertanyaan -->
+			@foreach ($data['comment_question'] as $cq)
+			<div class="clearfix m-0">
+				<div class="user-block m-0">
+					<a href="#">ID User : {{$cq->id}} </a>
+					<span> {!! $cq->content !!} </span>
+					<span class="description" style="display: inline;"><i class="nav-icon far fa-calendar-alt"></i> <i>{{$cq->created_at}}</i></span>
+				</div>
+			</div>
+			@endforeach
+			<div class="post mt-2">
+				<form action="/komentar/pertanyaan/{{$data['question']->id_question}}" method="POST">
+					@csrf
+					@method('PUT')
+					<div class="form-group mb-0">
+						<input type="text" class="form-control" name="content" placeholder="Masukkan komentar">
+					</div>
+				</form>
+			</div>
 			
 		</div>
 		<!-- /.post -->		
@@ -76,8 +96,9 @@
 			<div class="user-block">
 				<img class="img-circle img-bordered-sm" src="{{ asset('/adminlte/dist/img/user4-128x128.jpg') }}" alt="user image">
 				<span class="username">
-					<a href="#">ID User : {{$item->id}} </a>
+					<a href="#">ID User : {{$item->id_answer}} </a>
 					<a href="#">Reputation Point : {{$item->point}} </a>
+
 				</span>
 				<span class="description"><i class="nav-icon far fa-calendar-alt"></i> {{$item->created_at}}  <i> (last edited : {{$item->updated_at}})</i></span>
 			</div>
@@ -90,7 +111,7 @@
 			if ($ses != $item->id) { ?>
 				<form action="/jawaban/{{$item->id_answer}}/vote" method="POST">
 					<p>
-						<span class="float-right">
+						<span class="float-right mb-2">
 							@csrf
 							@method('PUT')
 							<input type="hidden" name="id" value="{{$item->id}}">
