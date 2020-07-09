@@ -12,29 +12,35 @@
   <!-- Theme style -->
   <link rel="stylesheet" href=" {{ asset('/adminlte/dist/css/adminlte.min.css')}} ">
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition layout-top-nav">
 <!-- Site wrapper -->
 <div class="wrapper">
   <!-- Navbar -->
-  @include('layout.navbar')
+  @include('layout.topnav')
   <!-- /.navbar -->
 
-  <!-- Main Sidebar Container -->
-  @include('layout.sidebar')
-
-  <!-- Content Wrapper. Contains page content -->
+    <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
+    <div class="content-header">
+      <div class="container">
         @yield('header')
       </div><!-- /.container-fluid -->
-    </section>
+    </div>
+    <!-- /.content-header -->
 
     <!-- Main content -->
-    <section class="content">
-      @yield('content')
-    </section>
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+          @yield('content')
+            
+          </div>
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->

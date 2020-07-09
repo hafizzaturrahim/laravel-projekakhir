@@ -15,11 +15,11 @@ class QuestionModel{
 
 	public static function get_single_data($id){
 		$result = DB::table('questions')
-					->join('users', 'users.id_user', '=', 'questions.id_user')
-					->leftJoin('rep_points', 'users.id_user', '=', 'rep_points.id_user')
-					->select('questions.*', 'fullname', 'photo', DB::raw('IFNULL(sum(rep_points.point),0) as `point`'))
+					->join('users', 'users.id', '=', 'questions.id')
+					->leftJoin('rep_points', 'users.id', '=', 'rep_points.id')
+					->select('questions.*', 'name', 'photo', DB::raw('IFNULL(sum(rep_points.point),0) as `point`'))
 					->where('id_question',$id)
-					->groupBy('users.id_user')
+					->groupBy('users.id')
 					->first();
 		return $result;
 	}

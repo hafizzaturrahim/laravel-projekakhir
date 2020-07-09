@@ -21,7 +21,7 @@
 			<div class="user-block">
 				<img class="img-circle img-bordered-sm" src="{{ asset('/adminlte/dist/img/user4-128x128.jpg') }}" alt="user image">
 				<span class="username">
-					<a href="#">ID User : {{$data['question']->id_user}}</a>
+					<a href="#">{{$data['question']->name}} ID User : {{$data['question']->id}}</a>
 					<a href="#">Reputation Point : {{$data['question']->point}} </a>
 				</span>
 				<span class="description"> <i class="nav-icon far fa-calendar-alt"></i> {{$data['question']->created_at}}  <i> (last edited : {{$data['question']->updated_at}})</i></span>
@@ -30,26 +30,32 @@
 			<p>
 				{{$data['question']->description}}
 			</p>
-			<?php 
-			$ses = 2;
-			if ($ses != $data['question']->id_user) { ?>
-				<form action="/pertanyaan/{{$data['question']->id_question}}/vote" method="POST">
-					<p>
-						<span class="float-right">
-							@csrf
-							@method('PUT')
-							<input type="hidden" name="id" value="{{$data['question']->id_user}}">
-							<button type="submit" class="btn btn-outline-success text-sm ml-2" name="val" value="up"><span class="text-sm mr-1">{{$data['like']}}</span>| <i class="far fa-thumbs-up mr-1 ml-1"></i> Like</button>
+			@if ($data['id'] != $data['question']->id)
+			<form action="/pertanyaan/{{$data['question']->id_question}}/vote" method="POST">
+				<p>
+					<span class="float-right">
+						@csrf
+						@method('PUT')
+						<input type="hidden" name="id" value="{{$data['question']->id}}">
+						<button type="submit" class="btn btn-outline-success text-sm ml-2" name="val" value="up"><span class="text-sm mr-1">{{$data['like']}}</span>| <i class="far fa-thumbs-up mr-1 ml-1"></i> Like</button>
 
-							@if ($data['count'] < 15)
-								<button class="btn btn-outline-danger text-sm ml-2" name="val" value="down" disabled=""><span class="text-sm mr-1">{{$data['dislike']}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
-							@else
-								<button type="submit" class="btn btn-outline-danger text-sm ml-2" name="val" value="down"><span class="text-sm mr-1">{{$data['dislike']}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
-							@endif
-						</span>
-					</p>
-				</form>
-			<?php }	?>
+						@if ($data['count'] < 15)
+						<button class="btn btn-outline-danger text-sm ml-2" name="val" value="down" disabled=""><span class="text-sm mr-1">{{$data['dislike']}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
+						@else
+						<button type="submit" class="btn btn-outline-danger text-sm ml-2" name="val" value="down"><span class="text-sm mr-1">{{$data['dislike']}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
+						@endif
+					</span>
+				</p>
+			</form>
+			@else
+			<p>
+				<span class="float-right">
+					<button class="btn btn-outline-success text-sm ml-2" disabled=""><span class="text-sm mr-1">{{$data['like']}}</span>| <i class="far fa-thumbs-up mr-1 ml-1"></i> Like</button>
+
+					<button class="btn btn-outline-danger text-sm ml-2" disabled=""><span class="text-sm mr-1">{{$data['dislike']}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
+				</span>
+			</p>
+			@endif
 			
 		</div>
 		<!-- /.post -->		
@@ -67,7 +73,7 @@
 			<div class="user-block">
 				<img class="img-circle img-bordered-sm" src="{{ asset('/adminlte/dist/img/user4-128x128.jpg') }}" alt="user image">
 				<span class="username">
-					<a href="#">ID User : {{$item->id_user}} </a>
+					<a href="#">{{$data['question']->name}} ID User : {{$item->id}} </a>
 					<a href="#">Reputation Point : {{$item->point}} </a>
 				</span>
 				<span class="description"><i class="nav-icon far fa-calendar-alt"></i> {{$item->created_at}}  <i> (last edited : {{$item->updated_at}})</i></span>
@@ -76,36 +82,33 @@
 			<p>
 				{{$item->description}}
 			</p>
-			<?php
-			$ses = 2;
-			if ($ses != $item->id_user) { ?>
-				<form action="/jawaban/{{$item->id_answer}}/vote" method="POST">
-					<p>
-						<span class="float-right">
-							@csrf
-							@method('PUT')
-							<input type="hidden" name="id" value="{{$item->id_user}}">
-							<input type="hidden" name="id_q" value="{{$data['question']->id_question}}">
-
-							<button type="submit" class="btn btn-outline-success text-sm ml-2" name="val" value="up"><span class="text-sm mr-1">{{$item->like}}</span>| <i class="far fa-thumbs-up mr-1 ml-1"></i> Like</button>
-							@if($data['count'] < 15)
-								<button class="btn btn-outline-danger text-sm ml-2" name="val" value="down" disabled=""><span class="text-sm mr-1">{{$item->dislike}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
-							@else
-								<button type="submit" class="btn btn-outline-danger text-sm ml-2" name="val" value="down"><span class="text-sm mr-1">{{$item->dislike}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
-							@endif
-						</span>
-					</p>
-				</form>
-			<?php }else{	?>
+			@if ($data['id'] != $item->id)
+			<form action="/jawaban/{{$item->id_answer}}/vote" method="POST">
 				<p>
-						<span class="float-right">
-							<button class="btn btn-outline-success text-sm ml-2" disabled=""><i class="far fa-thumbs-up mr-1 ml-1"></i> <span class="text-sm mr-1">{{$item->like}}</span></button>
+					<span class="float-right">
+						@csrf
+						@method('PUT')
+						<input type="hidden" name="id" value="{{$item->id}}">
+						<input type="hidden" name="id_q" value="{{$data['question']->id_question}}">
 
-							<button class="btn btn-outline-danger text-sm ml-2" disabled=""><i class="far fa-thumbs-down mr-1 ml-1"></i> <span class="text-sm mr-1">{{$item->dislike}}</span></button>
-						</span>
-					</p>
+						<button type="submit" class="btn btn-outline-success text-sm ml-2" name="val" value="up"><span class="text-sm mr-1">{{$item->like}}</span>| <i class="far fa-thumbs-up mr-1 ml-1"></i> Like</button>
+						@if($data['count'] < 15)
+						<button class="btn btn-outline-danger text-sm ml-2" name="val" value="down" disabled=""><span class="text-sm mr-1">{{$item->dislike}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
+						@else
+						<button type="submit" class="btn btn-outline-danger text-sm ml-2" name="val" value="down"><span class="text-sm mr-1">{{$item->dislike}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
+						@endif
+					</span>
+				</p>
+			</form>
+			@else
+			<p>
+				<span class="float-right">
+					<button class="btn btn-outline-success text-sm ml-2" disabled=""><i class="far fa-thumbs-up mr-1 ml-1"></i> <span class="text-sm mr-1">{{$item->like}}</span></button>
 
-			<?php } ?>
+					<button class="btn btn-outline-danger text-sm ml-2" disabled=""><i class="far fa-thumbs-down mr-1 ml-1"></i> <span class="text-sm mr-1">{{$item->dislike}}</span></button>
+				</span>
+			</p>
+			@endif
 		</div>
 		@endforeach
 		<!-- /.post -->		

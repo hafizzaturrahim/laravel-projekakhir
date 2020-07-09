@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\QuestionModel;
 use App\Models\AnswerModel;
 
 class QuestionController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+    
     public function index(){
     	$question = QuestionModel::get_all();
     	return view('crud.index',compact('question'));
@@ -18,14 +23,16 @@ class QuestionController extends Controller
     }
 
     public function store(Request $request){
+        $user = Auth::user();
+        $id_user = Auth::id();
+
     	$title = $request->input('title');
     	$description = $request->input('description');
     	$data = array(
             'title'=>$title,
             'description'=>$description,
-            'id_user'=>1
+            'id'=>$id_user
         );
-        //untuk tanggal sudah otomatis
     	$question = QuestionModel::save($data);
     	return redirect()->action('QuestionController@index');
     }
