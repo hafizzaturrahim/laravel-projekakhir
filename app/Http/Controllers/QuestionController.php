@@ -20,7 +20,11 @@ class QuestionController extends Controller
     public function store(Request $request){
     	$title = $request->input('title');
     	$description = $request->input('description');
-    	$data = array('title'=>$title,'description'=>$description);
+    	$data = array(
+            'title'=>$title,
+            'description'=>$description,
+            'id_user'=>1
+        );
         //untuk tanggal sudah otomatis
     	$question = QuestionModel::save($data);
     	return redirect()->action('QuestionController@index');

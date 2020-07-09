@@ -30,6 +30,9 @@ Route::post('/pertanyaan','QuestionController@store');
 Route::get('/jawaban/{id}','AnswerController@index');
 Route::post('/jawaban/{id}','AnswerController@store');
 
+Route::put('/pertanyaan/{id_question}/vote','VoteQuestionController@store');
+Route::put('/jawaban/{id_answer}/vote','VoteAnswerController@store');
+
 Route::get('/pertanyaan/{id}/edit','QuestionController@edit');
 Route::put('/pertanyaan/{id}','QuestionController@update');
 Route::delete('/pertanyaan/{id}','QuestionController@destroy');
