@@ -12,16 +12,17 @@
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('welcome');
 });
 
-Route::get('/master', function () {
+/*Route::get('/master', function () {
     return view('master');
 });
 
 Route::get('/data-tables', function () {
     return view('data-tables');
 });
+*/
 
 Route::get('/pertanyaan','QuestionController@index');
 Route::get('/pertanyaan/create','QuestionController@create');
