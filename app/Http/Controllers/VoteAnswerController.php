@@ -8,8 +8,13 @@ use App\Models\RepPointModel;
 
 class VoteAnswerController extends Controller
 {
+
+	public function __construct(){
+		$this->middleware('auth');
+	}
+    
 	public function store(Request $request,$id_answer){
-		$ses = 4;
+		
 		$id_question = $request->input('id_q');
 		$id_user = $request->input('id');
 		if ($request->input('val') == 'up') {
@@ -18,7 +23,7 @@ class VoteAnswerController extends Controller
 			$value = 0;
 		}
 		$data = array(
-			'id_voter'=> $ses,
+			'id_voter'=> Auth::user()->id,
 			'id_answer'=>$id_answer,
 			'id_user' => $request->input('id'),
 			'value' => $value

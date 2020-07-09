@@ -11,10 +11,10 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
-
+});*/
+Route::redirect('/', '/pertanyaan');
 /*Route::get('/master', function () {
     return view('master');
 });
