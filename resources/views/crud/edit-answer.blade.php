@@ -16,6 +16,7 @@
 			@method('PUT')
 			<div class="form-group">
 				<label for="description"> Jawaban :</label>
+        <input type="hidden" name="id_question" value="{{$answers->id_question}}">
 				<textarea name="description" class="form-control my-editor">{!! old('description', $answer->description ?? '') !!}</textarea>
 			</div>
 			<button type="submit" class="btn btn-primary">Simpan</button>

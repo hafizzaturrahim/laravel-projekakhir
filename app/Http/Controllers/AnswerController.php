@@ -28,8 +28,9 @@ class AnswerController extends Controller
 
 		//$question = json_decode(json_encode($question), true);
 		$data['answer'] = AnswerModel::get_data_with_vote($id);
+        $data['best_answer'] = AnswerModel::get_best_answer($id);
 		// $data['comment_answer'] = CommentAnswerModel::get_by_id_answer($id);
-		//$question['answer'] = json_decode(json_encode($answer), true);
+
 		$data['count'] = AnswerModel::get_data($id)->count();
 
 		$data['like'] = VoteQuestionModel::get_count_like($id)->count();
@@ -61,7 +62,13 @@ class AnswerController extends Controller
 
     public function update(Request $request,$id){
         $answer = AnswerModel::update($id, $request->all());    
-        return redirect()->action('AnswerController@index',$id);
+        return redirect()->action('AnswerController@index',$request->input('id_question'));
+    }
+
+    public function set_best_answer(Request $request,$id){
+        $data = array('best_answer' => $request->input('best'));
+        $best_answer = AnswerModel::update_best_answer($id, $data);
+        return redirect()->action('AnswerController@index',$request->input('id_question'));
     }
 
     public function destroy($id){

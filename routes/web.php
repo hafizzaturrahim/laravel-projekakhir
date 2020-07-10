@@ -35,7 +35,10 @@ Route::delete('/pertanyaan/{id}','QuestionController@destroy'); // hapus pertany
 Route::get('/jawaban/{id}','AnswerController@index'); // daftar jawaban berdasar pertanyaan tertentu
 Route::post('/jawaban/{id}','AnswerController@store'); // buat jawaban baru
 Route::get('/jawaban/{id}/edit','AnswerController@edit'); //edit jawaban
-Route::delete('/jawaban/{id}','AnswerController@destroy'); //hapus jawaban 
+Route::put('/jawaban/{id}','AnswerController@update'); //store jawaban yang telah diedit
+Route::delete('/jawaban/{id}','AnswerController@destroy'); // hapus jawaban
+
+Route::put('/jawaban/{id}/best','AnswerController@set_best_answer'); //store jawaban yang telah diedit
 
 Route::put('/komentar/pertanyaan/{id}','CommentQuestionController@store'); // buat komentar pertanyaan
 Route::put('/komentar/jawaban/{id}','CommentAnswerController@store'); // buat komentar jawaban

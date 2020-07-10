@@ -20,6 +20,11 @@ class AnswerModel{
 		return $result;
 	}
 
+	public static function get_best_answer($id){
+		$result = DB::table('answers')->where([['id_question',$id],['best_answer',1]])->first();
+		return $result;
+	}
+
 	public static function delete($id){
 		$deleted = DB::table('answers')->where('id_answer',$id)->delete();
 		return $deleted;
@@ -43,6 +48,16 @@ class AnswerModel{
 						->where('id_answer',$id)
 						->update([
 							'description' => $request['description'],
+							'updated_at' => date("Y-m-d H:i:s")
+						]);
+		return $question;
+	}
+
+	public static function update_best_answer($id, $data){
+		$question = DB::table('answers')
+						->where('id_answer',$id)
+						->update([
+							'best_answer' => $data['best_answer'],
 							'updated_at' => date("Y-m-d H:i:s")
 						]);
 		return $question;

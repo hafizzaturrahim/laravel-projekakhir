@@ -113,10 +113,33 @@
 			<p>
 				{!! $item->description !!} 
 			</p>
-			@if ($data['id'] != $item->id)
-			<form action="/jawaban/{{$item->id_answer}}/vote" method="POST">
-				<p>
-					<span class="float-right mb-2">
+			@if($data['id'] != $item->id)
+			<p>
+				<span class="float-right mb-2">
+					<?php if (empty($data['best_answer'])) { 
+						if ($data['id'] == $data['question']->id) { ?>
+							<form action="/jawaban/{{$item->id_answer}}/best" method="POST" class="float-right mb-2">
+								@csrf
+								@method('PUT')
+								<input type="hidden" name="best" value="1">
+								<input type="hidden" name="id_question" value="{{$data['question']->id_question}}">
+								<button type="submit" class="btn btn-outline-success text-sm ml-2"><span class="text-sm mr-1"> jadikan jawaban terbaik</span></button>
+							</form>
+						
+					<?php }}else{
+						if ($item->best_answer == 1) { ?>
+							<form action="/jawaban/{{$item->id_answer}}/best" method="POST" class="float-right mb-2">
+								@csrf
+								@method('PUT')
+								<input type="hidden" name="best" value="0">
+								<input type="hidden" name="id_question" value="{{$data['question']->id_question}}">
+								<button type="submit" class="btn btn-success text-sm ml-2"><span class="text-sm mr-1">jawaban terbaik</span></button>
+							</form>
+							
+						<?php }}?>
+					
+
+					<form action="/jawaban/{{$item->id_answer}}/vote" method="POST" class="float-right mb-2">
 						@csrf
 						@method('PUT')
 						<input type="hidden" name="id" value="{{$item->id}}">
@@ -129,20 +152,18 @@
 						@else
 						<button type="submit" class="btn btn-outline-danger text-sm ml-2" name="val" value="down"><span class="text-sm mr-1">{{$item->dislike}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
 						@endif
-					</span>
-				</p>
-			</form>
+					</form>
+				</span>
+			</p>
 			@else
 			<p>
-
 				<span class="float-right">
+					<a href="/jawaban/{{$item->id_answer}}/edit"  class="btn btn-warning text-sm ml-2"><span class="text-sm mr-1"> Edit</span></a>
+					<button class="btn btn-outline-success text-sm ml-2" disabled=""><i class="far fa-thumbs-up mr-1 ml-1"></i> <span class="text-sm mr-1">{{$item->like}}</span></button>
 
-					<a href="/jawaban/{{$item->id_answer}}/edit"  class="btn btn-warning text-sm ml-2"><span class="text-sm mr-1"> Edit</a>
-
-						<button class="btn btn-outline-success text-sm ml-2" disabled=""><i class="far fa-thumbs-up mr-1 ml-1"></i> <span class="text-sm mr-1">{{$item->like}}</span></button>
-
-						<button class="btn btn-outline-danger text-sm ml-2" disabled=""><i class="far fa-thumbs-down mr-1 ml-1"></i> <span class="text-sm mr-1">{{$item->dislike}}</span></button>
+					<button class="btn btn-outline-danger text-sm ml-2" disabled=""><i class="far fa-thumbs-down mr-1 ml-1"></i> <span class="text-sm mr-1">{{$item->dislike}}</span></button>
 				</span>
+
 				<form action="/jawaban/{{$item->id_answer}}" method="POST" style="display: inline" class="float-right">
 					@csrf
 					@method('DELETE')
@@ -150,68 +171,68 @@
 				</form>
 			</p>
 			@endif
-			</div>
-			@endforeach
-			<!-- /.post -->		
-		</div><!-- /.card-body -->
-	</div>
-	<!-- /.card -->
+		</div>
+		@endforeach
+		<!-- /.post -->		
+	</div><!-- /.card-body -->
+</div>
+<!-- /.card -->
 
-	<div class="card card-outline">
-		<div class="card-body">
-			<!-- Post -->
-			<div class="post">
-				<form action="/jawaban/{{$data['question']->id_question}}" method="POST">
-					@csrf
-					<div class="form-group">
-						<label for="description">Berikan jawaban anda :</label>
-						<textarea id="description" name="description" class="form-control my-editor">{!! old('description', $description ?? '') !!}</textarea>
-					</div>
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</form>
-			</div>
-			<!-- /.post -->		
-			<!-- /.tab-content -->
-		</div><!-- /.card-body -->
-	</div>
-	<!-- /.card -->
-	@endsection
+<div class="card card-outline">
+	<div class="card-body">
+		<!-- Post -->
+		<div class="post">
+			<form action="/jawaban/{{$data['question']->id_question}}" method="POST">
+				@csrf
+				<div class="form-group">
+					<label for="description">Berikan jawaban anda :</label>
+					<textarea id="description" name="description" class="form-control my-editor">{!! old('description', $description ?? '') !!}</textarea>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+		<!-- /.post -->		
+		<!-- /.tab-content -->
+	</div><!-- /.card-body -->
+</div>
+<!-- /.card -->
+@endsection
 
-	@push('scripts')
-	<script>
-		var editor_config = {
-			path_absolute : "/",
-			selector: "textarea.my-editor",
-			plugins: [
-			"advlist autolink lists link image charmap print preview hr anchor pagebreak",
-			"searchreplace wordcount visualblocks visualchars code fullscreen",
-			"insertdatetime media nonbreaking save table contextmenu directionality",
-			"emoticons template paste textcolor colorpicker textpattern"
-			],
-			toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
-			relative_urls: false,
-			file_browser_callback : function(field_name, url, type, win) {
-				var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-				var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
+@push('scripts')
+<script>
+	var editor_config = {
+		path_absolute : "/",
+		selector: "textarea.my-editor",
+		plugins: [
+		"advlist autolink lists link image charmap print preview hr anchor pagebreak",
+		"searchreplace wordcount visualblocks visualchars code fullscreen",
+		"insertdatetime media nonbreaking save table contextmenu directionality",
+		"emoticons template paste textcolor colorpicker textpattern"
+		],
+		toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+		relative_urls: false,
+		file_browser_callback : function(field_name, url, type, win) {
+			var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+			var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
 
-				var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
-				if (type == 'image') {
-					cmsURL = cmsURL + "&type=Images";
-				} else {
-					cmsURL = cmsURL + "&type=Files";
-				}
-
-				tinyMCE.activeEditor.windowManager.open({
-					file : cmsURL,
-					title : 'Filemanager',
-					width : x * 0.8,
-					height : y * 0.8,
-					resizable : "yes",
-					close_previous : "no"
-				});
+			var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+			if (type == 'image') {
+				cmsURL = cmsURL + "&type=Images";
+			} else {
+				cmsURL = cmsURL + "&type=Files";
 			}
-		};
 
-		tinymce.init(editor_config);
-	</script>
-	@endpush
+			tinyMCE.activeEditor.windowManager.open({
+				file : cmsURL,
+				title : 'Filemanager',
+				width : x * 0.8,
+				height : y * 0.8,
+				resizable : "yes",
+				close_previous : "no"
+			});
+		}
+	};
+
+	tinymce.init(editor_config);
+</script>
+@endpush
