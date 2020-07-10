@@ -46,6 +46,8 @@ Route::put('/komentar/jawaban/{id}','CommentAnswerController@store'); // buat ko
 Route::put('/pertanyaan/{id_question}/vote','VoteQuestionController@store'); //beri vote untuk pertanyaan
 Route::put('/jawaban/{id_answer}/vote','VoteAnswerController@store'); //beri vote untuk jawaban
 
+Route::get('/tags/{key}','QuestionController@get_tags'); //pencarian berdasarkan tags
+
 
 
 Auth::routes();

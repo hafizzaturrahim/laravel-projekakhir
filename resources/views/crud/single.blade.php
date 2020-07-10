@@ -36,7 +36,7 @@
 			</p>
 			
 			@foreach ($data['question']->tags as $tag)
-			<a class="btn btn-sm btn-info mr-1" href="#">{{ $tag }}</a>
+			<a class="btn btn-sm btn-info mr-1" href="/tags/{{$tag}}">{{ $tag }}</a>
 			@endforeach
 
 			@if ($data['id'] != $data['question']->id)

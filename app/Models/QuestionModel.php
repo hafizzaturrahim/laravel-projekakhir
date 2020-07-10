@@ -8,6 +8,15 @@ class QuestionModel{
 		return $question;
 	}
 
+	public static function get_data_by_tags($key){
+		$result = DB::table('questions')
+					->join('users', 'users.id', '=', 'questions.id')
+					->where('tags','like','%'.$key.'%')
+					->get();
+		//$result->tags = explode(" ",$result->tags);
+		return $result;
+	}
+
 	public static function save($data){
 		$data['created_at'] = date("Y-m-d H:i:s");
 		$data['updated_at'] = date("Y-m-d H:i:s");

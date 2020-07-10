@@ -48,6 +48,12 @@ class QuestionController extends Controller
         return view('crud.show', compact('question', 'answer'));
     }
 
+    public function get_tags($key){
+        $question = QuestionModel::get_data_by_tags($key);
+        //dd($question);
+        return view('crud.search', compact('question','key'));
+    }
+
     public function edit($id){
         $question = QuestionModel::get_single_data($id);
         return view('crud.form-edit-question',compact('question'));
