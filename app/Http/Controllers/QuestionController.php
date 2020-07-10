@@ -29,11 +29,11 @@ class QuestionController extends Controller
 
     	$title = $request->input('title');
     	$description = $request->input('description');
-        $tags = $request->input('tags');
     	$data = array(
             'title'=>$title,
             'description'=>$description,
-            'id'=>$id_user
+            'id'=>$id_user,
+            'tags' => $request->input('tags')
         );
     	$question = QuestionModel::save($data);
     	return redirect()->action('QuestionController@index');

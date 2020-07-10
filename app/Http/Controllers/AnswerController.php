@@ -53,4 +53,14 @@ class AnswerController extends Controller
     	$question = AnswerModel::save($data);
     	return redirect()->action('AnswerController@index',$id);
     }
+
+    public function edit($id){
+    	$answer = AnswerModel::get_single_data($id);
+    	return view('crud.edit-answer',compact('answer'));
+    }
+
+    public function update(Request $request,$id){
+        $answer = AnswerModel::update($id, $request->all());    
+        return redirect()->action('AnswerController@index',$id);
+    }
 }

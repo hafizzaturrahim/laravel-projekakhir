@@ -25,8 +25,8 @@
 					<th>Judul Pertanyaan</th>
 					<th>Pertanyaan</th>
 					<th>Tanggal Dibuat</th>
-					<th>Terakhir Diperbaharui</th>
-					<th>Actions</th>
+					<th>Terakhir Diperbaruhi</th>
+					<th width="20%">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
