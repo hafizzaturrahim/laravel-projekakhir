@@ -9,6 +9,8 @@ class QuestionModel{
 	}
 
 	public static function save($data){
+		$data['created_at'] = date("Y-m-d H:i:s");
+		$data['updated_at'] = date("Y-m-d H:i:s");
 		$new_question = DB::table('questions')->insert($data);
 		return $new_question;
 	}
@@ -21,6 +23,7 @@ class QuestionModel{
 					->where('id_question',$id)
 					->groupBy('users.id')
 					->first();
+		$result->tags = explode(" ",$result->tags);
 		return $result;
 	}
 
@@ -29,7 +32,9 @@ class QuestionModel{
 						->where('id_question',$id)
 						->update([
 							'title'			=> $request['title'],
-							'description' 	=> $request['description']
+							'description' 	=> $request['description'],
+							'tags' 	=> $request['tags'],
+							'updated_at' => date("Y-m-d H:i:s")
 						]);
 		return $question;
 	}

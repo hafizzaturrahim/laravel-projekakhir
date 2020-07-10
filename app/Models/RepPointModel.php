@@ -3,6 +3,7 @@ namespace App\Models;
 use Illuminate\Support\Facades\DB;
 
 class RepPointModel{
+
 	public static function get_point_by_id($id){
 		$question = DB::table('rep_points')->where('id',$id)->sum('point');
 		return $question;

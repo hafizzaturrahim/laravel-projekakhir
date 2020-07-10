@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\QuestionModel;
 use App\Models\AnswerModel;
+use App\Models\CommentQuestionModel;
 
 class QuestionController extends Controller
 {
@@ -28,6 +29,7 @@ class QuestionController extends Controller
 
     	$title = $request->input('title');
     	$description = $request->input('description');
+        $tags = $request->input('tags');
     	$data = array(
             'title'=>$title,
             'description'=>$description,
@@ -35,6 +37,12 @@ class QuestionController extends Controller
         );
     	$question = QuestionModel::save($data);
     	return redirect()->action('QuestionController@index');
+    }
+
+    public function show($id) {
+        $question = QuestionModel::get_single_data($id);
+        $answer = AnswerModel::get_data($id);
+        return view('crud.show', compact('question', 'answer'));
     }
 
     public function edit($id){
@@ -49,7 +57,8 @@ class QuestionController extends Controller
     }
 
     public function destroy($id){
-        $question = AnswerModel::delete($id);
+        $answer = AnswerModel::delete($id);
+        $comment = CommentQuestionModel::delete($id);
         $question = QuestionModel::delete($id);
         return redirect('/pertanyaan');
     }

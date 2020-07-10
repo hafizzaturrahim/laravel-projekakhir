@@ -17,7 +17,7 @@ class CreateQuestionTable extends Migration
             $table->bigIncrements('id_question');
             $table->string('title');
             $table->longText('description');
-            $table->string('tag');
+            $table->string('tags');
             $table->timestamps();
             $table->unsignedBigInteger('id');
             $table->foreign('id')->references('id')->on('users');

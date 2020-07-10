@@ -25,7 +25,7 @@ class VoteQuestionController extends Controller {
         $data = array(
           'id_voter'=>$id_voter,
           'id_question'=>$id_question,
-          'id_user' => $request->input('id'),
+          'id' => $request->input('id'),
           'value' => $value
         );
 
@@ -37,13 +37,13 @@ class VoteQuestionController extends Controller {
                 $rp = array(
                     'transaction'=> "Liked by:". $id_voter. ":in question:". $id_question,
                     'point'=> 10,
-                    'id_user' => $request->input('id')
+                    'id' => $request->input('id')
                 );
             }else{
                 $rp = array(
                     'transaction'=> "Liked by:". $id_voter. ":in question:". $id_question,
                     'point'=> -1,
-                    'id_user' => $request->input('id')
+                    'id' => $request->input('id')
                 );
             }
             $save_point = RepPointModel::save($rp);
@@ -55,13 +55,13 @@ class VoteQuestionController extends Controller {
                 $rp = array(
                     'transaction'=> "Change to liked by:". $id_voter. ":in question:". $id_question,
                     'point'=> 11,
-                    'id_user' => $request->input('id')
+                    'id' => $request->input('id')
                 );
             }else{
                 $rp = array(
                     'transaction'=> "Change to disliked by:". $id_voter. ":in question:". $id_question,
                     'point'=> -11,
-                    'id_user' => $request->input('id')
+                    'id' => $request->input('id')
                 );
             }
             $save_point = RepPointModel::save($rp);

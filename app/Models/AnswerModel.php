@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\DB;
 
 class AnswerModel{
 	public static function save($data){
+		$data['created_at'] = date("Y-m-d H:i:s");
+		$data['updated_at'] = date("Y-m-d H:i:s");
 		$new_answer = DB::table('answers')->insert($data);
 		return $new_answer;
 	}

@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="{{ asset('/adminlte/plugins/fontawesome-free/css/all.min.css')}} ">
   <!-- Theme style -->
   <link rel="stylesheet" href=" {{ asset('/adminlte/dist/css/adminlte.min.css')}} ">
+  @stack('script-head')
 </head>
 <body class="hold-transition layout-top-nav">
 <!-- Site wrapper -->
