@@ -10,6 +10,8 @@ class RepPointModel{
 	}
 
 	public static function save($data){
+		$data['created_at'] = date("Y-m-d H:i:s");
+		$data['updated_at'] = date("Y-m-d H:i:s");
 		$new_question = DB::table('rep_points')->insert($data);
 		return $new_question;
 	}
@@ -21,7 +23,8 @@ class RepPointModel{
 			['id_answer', $request['id_answer']]
 		])
 		->update([
-			'value'	=> $request['value']
+			'value'	=> $request['value'],
+			'updated_at' => date("Y-m-d H:i:s")
 		]);
 		return $question;
 	}

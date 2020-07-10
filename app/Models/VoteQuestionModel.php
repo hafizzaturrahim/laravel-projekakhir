@@ -45,12 +45,19 @@ class VoteQuestionModel{
 		return $question;
 	}
 
-	public static function delete($id_question,$id_voter){
+	public static function delete_by_voter($id_question,$id_voter){
 		$deleted = DB::table('vote_questions')
 		->where([
 			['id_voter', $id_voter],
 			['id_question', $id_question]
 		])
+		->delete();
+		return $deleted;
+	}
+
+	public static function delete($id_question){
+		$deleted = DB::table('vote_questions')
+		->where('id_question', $id_question)
 		->delete();
 		return $deleted;
 	}

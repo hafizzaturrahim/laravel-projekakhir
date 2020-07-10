@@ -63,4 +63,10 @@ class AnswerController extends Controller
         $answer = AnswerModel::update($id, $request->all());    
         return redirect()->action('AnswerController@index',$id);
     }
+
+    public function destroy($id){
+    	$deleteVote = VoteAnswerModel::delete($id);
+        $answer = AnswerModel::delete($id);
+        return redirect()->action('AnswerController@index',$id);
+    }
 }

@@ -24,6 +24,10 @@ class AnswerModel{
 		$deleted = DB::table('answers')->where('id_answer',$id)->delete();
 		return $deleted;
 	}
+	public static function delete_by_id_question($id){
+		$deleted = DB::table('answers')->where('id_question',$id)->delete();
+		return $deleted;
+	}
 
 	public static function get_data_with_vote($id){
 		$results = DB::select( DB::raw("

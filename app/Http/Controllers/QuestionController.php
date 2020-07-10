@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\QuestionModel;
 use App\Models\AnswerModel;
 use App\Models\CommentQuestionModel;
+use App\Models\VoteQuestionModel;
+use App\Models\VoteAnswerModel;
+
 
 class QuestionController extends Controller
 {
@@ -57,7 +60,9 @@ class QuestionController extends Controller
     }
 
     public function destroy($id){
-        $answer = AnswerModel::delete($id);
+        $deleteVote = VoteAnswerModel::delete($id);
+        $deleteVoteQ = VoteQuestionModel::delete($id);
+        $answer = AnswerModel::delete_by_id_question($id);
         $comment = CommentQuestionModel::delete($id);
         $question = QuestionModel::delete($id);
         return redirect('/pertanyaan');
