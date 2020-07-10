@@ -19,8 +19,6 @@ class CreateVoteAnswersTable extends Migration
             $table->unsignedBigInteger('id_answer');
             $table->foreign('id_answer')->references('id_answer')->on('answers');
             $table->Integer('value');
-            $table->unsignedBigInteger('id');
-            $table->foreign('id')->references('id')->on('answers');
             $table->primary(['id_voter', 'id_answer']);
         });
     }

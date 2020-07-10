@@ -39,7 +39,7 @@
 						<input type="hidden" name="id" value="{{$data['question']->id}}">
 						<button type="submit" class="btn btn-outline-success text-sm ml-2" name="val" value="up"><span class="text-sm mr-1">{{$data['like']}}</span>| <i class="far fa-thumbs-up mr-1 ml-1"></i> Like</button>
 
-						@if ($data['count'] < 15)
+						@if ($data['point'] < 15)
 						<button class="btn btn-outline-danger text-sm ml-2" name="val" value="down" disabled=""><span class="text-sm mr-1">{{$data['dislike']}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
 						@else
 						<button type="submit" class="btn btn-outline-danger text-sm ml-2" name="val" value="down"><span class="text-sm mr-1">{{$data['dislike']}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
@@ -73,7 +73,7 @@
 			<div class="user-block">
 				<img class="img-circle img-bordered-sm" src="{{ asset('/adminlte/dist/img/user4-128x128.jpg') }}" alt="user image">
 				<span class="username">
-					<a href="#">{{$data['question']->name}} ID User : {{$item->id}} </a>
+					<a href="#">{{$item->name}} ID User : {{$item->id}} </a>
 					<a href="#">Reputation Point : {{$item->point}} </a>
 				</span>
 				<span class="description"><i class="nav-icon far fa-calendar-alt"></i> {{$item->created_at}}  <i> (last edited : {{$item->updated_at}})</i></span>
@@ -92,7 +92,7 @@
 						<input type="hidden" name="id_q" value="{{$data['question']->id_question}}">
 
 						<button type="submit" class="btn btn-outline-success text-sm ml-2" name="val" value="up"><span class="text-sm mr-1">{{$item->like}}</span>| <i class="far fa-thumbs-up mr-1 ml-1"></i> Like</button>
-						@if($data['count'] < 15)
+						@if($data['point'] < 15)
 						<button class="btn btn-outline-danger text-sm ml-2" name="val" value="down" disabled=""><span class="text-sm mr-1">{{$item->dislike}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
 						@else
 						<button type="submit" class="btn btn-outline-danger text-sm ml-2" name="val" value="down"><span class="text-sm mr-1">{{$item->dislike}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
