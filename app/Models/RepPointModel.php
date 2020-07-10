@@ -17,7 +17,7 @@ class RepPointModel{
 	}
 
 	public static function update($request){
-		$question = DB::table('rep_points')
+		$rep = DB::table('rep_points')
 		->where([
 			['id_voter', $request['id_voter']],
 			['id_answer', $request['id_answer']]
@@ -26,19 +26,14 @@ class RepPointModel{
 			'value'	=> $request['value'],
 			'updated_at' => date("Y-m-d H:i:s")
 		]);
-		return $question;
+		return $rep;
 	}
 
-	public static function delete($id_answer,$id_voter){
+	public static function delete($transaction){
 		$deleted = DB::table('rep_points')
-		->where([
-			['id_voter', $id_voter],
-			['id_answer', $id_answer]
-		])
+		->where('transaction', $transaction)
 		->delete();
 		return $deleted;
 	}
 
-
 }
-?>

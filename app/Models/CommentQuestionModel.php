@@ -15,8 +15,8 @@ class CommentQuestionModel{
 		return $new_comment;
 	}
 
-	public static function delete($id){
-		$deleted = DB::table('comment_questions')->where('id_question',$id)->delete();
+	public static function destroy($id_comment){
+		$deleted = DB::table('comment_questions')->where('id_comment',$id_comment)->delete();
 		return $deleted;
 	}
 

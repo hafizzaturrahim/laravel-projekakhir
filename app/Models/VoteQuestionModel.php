@@ -4,19 +4,19 @@ use Illuminate\Support\Facades\DB;
 
 class VoteQuestionModel{
 	public static function get_count_like($id_question){
-		$question = DB::table('vote_questions')->where([
+		$vote_question = DB::table('vote_questions')->where([
 			['value',1],
 			['id_question', $id_question]
 		])->get();
-		return $question;
+		return $vote_question;
 	}
 
 	public static function get_count_dislike($id_question){
-		$question = DB::table('vote_questions')->where([
+		$vote_question = DB::table('vote_questions')->where([
 			['value',0],
 			['id_question', $id_question]
 		])->get();
-		return $question;
+		return $vote_question;
 	}
 
 	public static function check_data($id_question,$id_voter){
@@ -29,12 +29,12 @@ class VoteQuestionModel{
 	}
 
 	public static function save($data){
-		$new_question = DB::table('vote_questions')->insert($data);
-		return $new_question;
+		$new_vote_question = DB::table('vote_questions')->insert($data);
+		return $new_vote_question;
 	}
 
 	public static function update($request){
-		$question = DB::table('vote_questions')
+		$vote_question = DB::table('vote_questions')
 		->where([
 			['id_voter', $request['id_voter']],
 			['id_question', $request['id_question']]
@@ -42,7 +42,7 @@ class VoteQuestionModel{
 		->update([
 			'value'	=> $request['value']
 		]);
-		return $question;
+		return $vote_question;
 	}
 
 	public static function delete_by_voter($id_question,$id_voter){

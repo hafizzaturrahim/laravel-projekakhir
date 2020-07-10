@@ -26,7 +26,7 @@
 				<img class="img-circle img-bordered-sm" src="{{ asset('/adminlte/dist/img/user4-128x128.jpg') }}" alt="user image">
 				<span class="username">
 					<a href="#">{{$data['question']->name}}</a>
-					<a href="#">Reputation Point : {{$data['question']->point}} </a>
+					<a href="#">[Reputation Point : {{$data['question']->point}}]</a>
 				</span>
 				<span class="description"> <i class="nav-icon far fa-calendar-alt"></i> {{$data['question']->created_at}}  <i> (last edited : {{$data['question']->updated_at}})</i></span>
 			</div>
@@ -42,7 +42,7 @@
 			@if ($data['id'] != $data['question']->id)
 			<form action="/pertanyaan/{{$data['question']->id_question}}/vote" method="POST">
 				<p>
-					<span class="float-right mb-2">
+					<span class="float-right">
 						@csrf
 						@method('PUT')
 						<input type="hidden" name="id" value="{{$data['question']->id}}">
@@ -70,9 +70,25 @@
 			@foreach ($data['comment_question'] as $cq)
 			<div class="clearfix m-0">
 				<div class="user-block m-0">
-					<a href="#">ID User : {{$cq->id}} </a>
+					<a href="#">
+						@if($cq->id == $data['id'])
+							Me
+						@else
+							ID User : {{$cq->id}}
+						@endif
+					</a>
 					<span> {!! $cq->content !!} </span>
 					<span class="description" style="display: inline;"><i class="nav-icon far fa-calendar-alt"></i> <i>{{$cq->created_at}}</i></span>
+					@if($cq->id == $data['id'])
+						<form action="/komentar/pertanyaan/destroy" method="POST" style="display: inline" >
+							@csrf
+							@method('DELETE')
+							<input type="hidden" name="id_comment" value="{{$cq->id_comment}}">
+							<input type="hidden" name="id_question" value="{{$cq->id_question}}">
+							<button type="submit" class="btn btn-sm" onclick="return confirm('Anda yakin?')"><i class="fa fa-trash"></i></button>
+						</form>
+						
+					@endif
 				</div>
 			</div>
 			@endforeach
@@ -104,8 +120,10 @@
 				<img class="img-circle img-bordered-sm" src="{{ asset('/adminlte/dist/img/user4-128x128.jpg') }}" alt="user image">
 				<span class="username">
 					<a href="#">{{$item->name}} </a>
-					<a href="#">Reputation Point : {{$item->point}} </a>
-
+					<a href="#">[Reputation Point : {{$item->point}}]</a>
+					@if($item->best_answer == 1)
+					<i>&#10004;</i>
+					@endif
 				</span>
 				<span class="description"><i class="nav-icon far fa-calendar-alt"></i> {{$item->created_at}}  <i> (last edited : {{$item->updated_at}})</i></span>
 			</div>
@@ -122,7 +140,10 @@
 								@csrf
 								@method('PUT')
 								<input type="hidden" name="best" value="1">
+								<!-- Untuk reputation point -->
+								<input type="hidden" name="id" value="{{$item->id}}">
 								<input type="hidden" name="id_question" value="{{$data['question']->id_question}}">
+								<input type="hidden" name="val" value="up">
 								<button type="submit" class="btn btn-outline-success text-sm ml-2"><span class="text-sm mr-1"> jadikan jawaban terbaik</span></button>
 							</form>
 						
@@ -132,7 +153,10 @@
 								@csrf
 								@method('PUT')
 								<input type="hidden" name="best" value="0">
+								<!-- Untuk reputation point -->
+								<input type="hidden" name="id" value="{{$item->id}}">
 								<input type="hidden" name="id_question" value="{{$data['question']->id_question}}">
+								<input type="hidden" name="val" value="down">
 								<button type="submit" class="btn btn-success text-sm ml-2"><span class="text-sm mr-1">jawaban terbaik</span></button>
 							</form>
 							
@@ -171,16 +195,57 @@
 				</form>
 			</p>
 			@endif
+
+
+			<!-- Komentar Jawaban -->
+			@foreach ($data['comment_answer'] as $ca)
+			@if($ca->id_answer == $item->id_answer)
+			<div class="clearfix m-0">
+				<div class="user-block m-0">
+					<a href="#">
+						@if($ca->id == $data['id'])
+							Me
+						@else
+							ID User : {{$ca->id}}
+						@endif
+					</a>
+					<span> {!! $ca->content !!} </span>
+					<span class="description" style="display: inline;"><i class="nav-icon far fa-calendar-alt"></i> <i>{{$ca->created_at}}</i></span>
+					@if($ca->id == $data['id'])
+						<form action="/komentar/jawaban/destroy" method="POST" style="display: inline" >
+							@csrf
+							@method('DELETE')
+							<input type="hidden" name="id_comment" value="{{$ca->id_comment}}">
+							<input type="hidden" name="id_question" value="{{$item->id_question}}">
+							<button type="submit" class="btn btn-sm" onclick="return confirm('Anda yakin?')"><i class="fa fa-trash"></i></button>
+						</form>
+					@endif
+				</div>
+			</div>
+			@endif
+			@endforeach
+
+			<div class="post">
+				<form action="/komentar/jawaban/{{$item->id_answer}}" method="POST">
+					@csrf
+					@method('PUT')
+					<div class="form-group mb-0">
+						<input type="hidden" name="id_answer" value="{{$item->id_answer}}">
+						<input type="hidden" name="id_question" value="{{$item->id_question}}">
+						<input type="text" class="form-control" name="content" placeholder="Masukkan komentar">
+					</div>
+				</form>
+			</div>
 		</div>
 		@endforeach
 		<!-- /.post -->		
 	</div><!-- /.card-body -->
 </div>
 <!-- /.card -->
-
+@if($data['id'] != $data['question']->id)
+<!-- Penulis tidak bisa menjawab pertanyaan sendiri -->
 <div class="card card-outline">
 	<div class="card-body">
-		<!-- Post -->
 		<div class="post">
 			<form action="/jawaban/{{$data['question']->id_question}}" method="POST">
 				@csrf
@@ -191,10 +256,9 @@
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</form>
 		</div>
-		<!-- /.post -->		
-		<!-- /.tab-content -->
-	</div><!-- /.card-body -->
+	</div>
 </div>
+@endif
 <!-- /.card -->
 @endsection
 

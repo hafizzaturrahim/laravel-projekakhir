@@ -41,7 +41,9 @@ Route::delete('/jawaban/{id}','AnswerController@destroy'); // hapus jawaban
 Route::put('/jawaban/{id}/best','AnswerController@set_best_answer'); //store jawaban yang telah diedit
 
 Route::put('/komentar/pertanyaan/{id}','CommentQuestionController@store'); // buat komentar pertanyaan
+Route::delete('/komentar/pertanyaan/destroy','CommentQuestionController@destroy'); // hapus komentar pertanyaan
 Route::put('/komentar/jawaban/{id}','CommentAnswerController@store'); // buat komentar jawaban
+Route::delete('/komentar/jawaban/destroy','CommentAnswerController@destroy'); // hapus komentar jawaban
 
 Route::put('/pertanyaan/{id_question}/vote','VoteQuestionController@store'); //beri vote untuk pertanyaan
 Route::put('/jawaban/{id_answer}/vote','VoteAnswerController@store'); //beri vote untuk jawaban

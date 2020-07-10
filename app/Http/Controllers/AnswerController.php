@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\AnswerModel;
 use App\Models\QuestionModel;
 use App\Models\CommentQuestionModel;
-// use App\Models\CommentAnswerModel;
+use App\Models\CommentAnswerModel;
 use App\Models\VoteQuestionModel;
 use App\Models\VoteAnswerModel;
 use App\Models\RepPointModel;
@@ -29,7 +29,7 @@ class AnswerController extends Controller
 		//$question = json_decode(json_encode($question), true);
 		$data['answer'] = AnswerModel::get_data_with_vote($id);
         $data['best_answer'] = AnswerModel::get_best_answer($id);
-		// $data['comment_answer'] = CommentAnswerModel::get_by_id_answer($id);
+		$data['comment_answer'] = CommentAnswerModel::get_all($data);
 
 		$data['count'] = AnswerModel::get_data($id)->count();
 
@@ -65,15 +65,40 @@ class AnswerController extends Controller
         return redirect()->action('AnswerController@index',$request->input('id_question'));
     }
 
-    public function set_best_answer(Request $request,$id){
-        $data = array('best_answer' => $request->input('best'));
-        $best_answer = AnswerModel::update_best_answer($id, $data);
-        return redirect()->action('AnswerController@index',$request->input('id_question'));
-    }
-
     public function destroy($id){
     	$deleteVote = VoteAnswerModel::delete($id);
         $answer = AnswerModel::delete($id);
         return redirect()->action('AnswerController@index',$id);
     }
+
+    public function set_best_answer(Request $request,$id_answer){
+        $user = Auth::user();
+        $id_voter = Auth::id();
+
+        $data = array('best_answer' => $request->input('best'));
+        $best_answer = AnswerModel::update_best_answer($id_answer, $data);
+
+        $id_question = $request->input('id_question');
+        if ($request->input('val') == 'up') {
+            $value = 15;
+        }else{
+            $value = 0;
+        }
+
+        // kondisi dalam memberikan nilai reputasi
+        if ($value != 0) {  
+            $data = array(
+                'transaction'=> "Best answer:". $id_answer,
+                'point'=> $value,
+                'id' => $request->input('id')
+            );
+            $rep = RepPointModel::save($data);
+        } else {
+            $data = array( 'transaction' => "Best answer:". $id_answer );
+            $save_point = RepPointModel::delete($data);
+        }
+
+        return redirect()->action('AnswerController@index',$id_question);
+    }
+
 }

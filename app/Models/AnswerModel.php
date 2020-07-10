@@ -44,23 +44,23 @@ class AnswerModel{
 	}
 
 	public static function update($id, $request){
-		$question = DB::table('answers')
+		$answer = DB::table('answers')
 						->where('id_answer',$id)
 						->update([
 							'description' => $request['description'],
 							'updated_at' => date("Y-m-d H:i:s")
 						]);
-		return $question;
+		return $answer;
 	}
 
-	public static function update_best_answer($id, $data){
-		$question = DB::table('answers')
-						->where('id_answer',$id)
+	public static function update_best_answer($id_answer, $data){
+		$answer = DB::table('answers')
+						->where('id_answer',$id_answer)
 						->update([
 							'best_answer' => $data['best_answer'],
 							'updated_at' => date("Y-m-d H:i:s")
 						]);
-		return $question;
+		return $answer;
 	}
 
 
