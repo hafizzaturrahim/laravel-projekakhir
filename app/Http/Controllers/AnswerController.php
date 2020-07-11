@@ -26,6 +26,13 @@ class AnswerController extends Controller
 		$data['comment_question'] = CommentQuestionModel::get_by_id_question($id);
 		$data['point'] = RepPointModel::get_point_by_id($id_user);
 
+		$data['voted_question'] = VoteQuestionModel::get_value_by_id($id,$id_user);
+        if ($data['voted_question'] == null) {
+            $data['voted_question'] = 2;
+        }else{
+            $data['voted_question'] = $data['voted_question']->value;
+        }
+
 		//$question = json_decode(json_encode($question), true);
 		$data['answer'] = AnswerModel::get_data_with_vote($id);
         $data['best_answer'] = AnswerModel::get_best_answer($id);
@@ -36,9 +43,7 @@ class AnswerController extends Controller
 		$data['like'] = VoteQuestionModel::get_count_like($id)->count();
 		$data['dislike'] = VoteQuestionModel::get_count_dislike($id)->count();
 
-		$data['check'] = VoteQuestionModel::check_data($id,$id_user);
 		$data['id'] = $id_user;
-		// dd($data);
 		return view('crud.single',compact('data'));
 	}
 

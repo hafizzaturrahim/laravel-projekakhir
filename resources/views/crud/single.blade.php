@@ -19,7 +19,12 @@
 	<div class="card-header">
 		<div class="user-block">
 			<img class="img-circle" src="{{asset('/adminlte/dist/img/user1-128x128.jpg')}}" alt="User Image">
-			<span class="username"><a>{{$data['question']->name}}</a></span>
+			<span class="username"><a>
+					@if($data['question']->id == $data['id'])
+					Me
+					@else
+					{{$data['question']->name}}
+					@endif</a></span>
 			<span class="description"><i class="nav-icon far fa-calendar-alt"></i> {{$data['question']->created_at}} - (last edited : {{$data['question']->updated_at}})</span>
 		</div>
 		<!-- /.user-block -->
@@ -44,15 +49,25 @@
 				@csrf
 				@method('PUT')
 				<input type="hidden" name="id" value="{{$data['question']->id}}">
-				<button type="submit" class="btn btn-sm btn-outline-success ml-2" name="val" value="up"><span class="text-sm mr-1">{{$data['like']}}</span>| <i class="far fa-thumbs-up mr-1 ml-1"></i> Like</button>
+
+				@if ($data['voted_question'] == 0 || $data['voted_question'] == 2)
+					<button type="submit" class="btn btn-sm btn-outline-success ml-2" name="val" value="up"><span class="text-sm mr-1">{{$data['like']}}</span>| <i class="far fa-thumbs-up mr-1 ml-1"></i> Like</button>
+				@else
+					<button type="submit" class="btn btn-sm btn-success ml-2" name="val" value="clear_like"><span class="text-sm mr-1">{{$data['like']}}</span>| <i class="far fa-thumbs-up mr-1 ml-1"></i> Liked</button>
+				@endif
+				
 
 				@if ($data['point'] < 15)
-				<button class="btn btn-sm btn-outline-danger text-sm ml-2" name="val" value="down" disabled=""><span class="text-sm mr-1">{{$data['dislike']}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
+					<button class="btn btn-sm btn-outline-danger text-sm ml-2" name="val" value="down" disabled=""><span class="text-sm mr-1">{{$data['dislike']}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
 				@else
-				<button type="submit" class="btn btn-sm btn-outline-danger text-sm ml-2" name="val" value="down"><span class="text-sm mr-1">{{$data['dislike']}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
+					@if ($data['voted_question'] == 1 || $data['voted_question'] == 2)
+						<button type="submit" class="btn btn-sm btn-outline-danger text-sm ml-2" name="val" value="down"><span class="text-sm mr-1">{{$data['dislike']}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
+					@else
+						<button type="submit" class="btn btn-sm btn-danger text-sm ml-2" name="val" value="clear_dislike"><span class="text-sm mr-1">{{$data['dislike']}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Disliked</button>
+					@endif
+					
 				@endif
 			</span>
-
 		</form>
 		@else
 		<span class="float-right">
@@ -121,7 +136,12 @@
 	<div class="card-header">
 		<div class="user-block">
 			<img class="img-circle" src="{{asset('/adminlte/dist/img/user1-128x128.jpg')}}" alt="User Image">
-			<span class="username"><a>{{$item->name}}</a></span>
+			<span class="username"><a>
+					@if($item->id == $data['id'])
+					Me
+					@else
+					{{$item->name}}
+					@endif</a></span>
 			<span class="description"><i class="nav-icon far fa-calendar-alt"></i> {{$item->created_at}} - (last edited : {{$item->updated_at}})</span>	
 		</div>
 		<!-- /.user-block -->
@@ -144,6 +164,7 @@
 			@if($data['id'] != $item->id)
 				<span class="float-right mb-2">
 
+					<!-- best answer -->
 					<?php if (empty($data['best_answer'])) { 
 						if ($data['id'] == $data['question']->id) { ?>
 							<form action="/jawaban/{{$item->id_answer}}/best" method="POST" class="float-right mb-2">
@@ -174,7 +195,7 @@
 								<button class="btn btn-sm  btn-success text-sm ml-2"><span class="text-sm mr-1">terpilih sebagai jawaban terbaik</span></button>
 							
 					<?php }}}?>
-					
+
 					<form action="/jawaban/{{$item->id_answer}}/vote" method="POST" class="float-right mb-2">
 						@csrf
 						@method('PUT')
@@ -184,9 +205,9 @@
 						<button type="submit" class="btn btn-sm btn-outline-success text-sm ml-2" name="val" value="up"><span class="text-sm mr-1">{{$item->like}}</span>| <i class="far fa-thumbs-up mr-1 ml-1"></i> Like</button>
 
 						@if($data['point'] < 15)
-						<button class="btn btn-sm btn-outline-danger text-sm ml-2" name="val" value="down" disabled=""><span class="text-sm mr-1">{{$item->dislike}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
+							<button class="btn btn-sm btn-outline-danger text-sm ml-2" name="val" value="down" disabled=""><span class="text-sm mr-1">{{$item->dislike}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
 						@else
-						<button type="submit" class="btn btn-sm btn-outline-danger text-sm ml-2" name="val" value="down"><span class="text-sm mr-1">{{$item->dislike}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
+							<button type="submit" class="btn btn-sm btn-outline-danger text-sm ml-2" name="val" value="down"><span class="text-sm mr-1">{{$item->dislike}}</span>| <i class="far fa-thumbs-down mr-1 ml-1"></i> Dislike</button>
 						@endif
 					</form>
 				</span>
@@ -201,6 +222,7 @@
 				<form action="/jawaban/{{$item->id_answer}}" method="POST" style="display: inline" class="float-right">
 					@csrf
 					@method('DELETE')
+					<input type="hidden" name="id_question" value="{{$data['question']->id_question}}">
 					<button type="submit" class="btn btn-sm btn-danger text-sm ml-2" onclick="return confirm('Anda yakin ?')"> <i class="fas fa fa-trash"></i> Hapus</button>
 				</form>
 			@endif

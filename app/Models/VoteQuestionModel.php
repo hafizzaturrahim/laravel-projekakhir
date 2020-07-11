@@ -28,6 +28,16 @@ class VoteQuestionModel{
 		return $result;
 	}
 
+	public static function get_value_by_id($id_question,$id_voter){
+		$result = DB::table('vote_questions')
+		->where([
+			['id_voter', $id_voter],
+			['id_question', $id_question]
+		])
+		->select('value')->first();
+		return $result;
+	}
+
 	public static function save($data){
 		$new_vote_question = DB::table('vote_questions')->insert($data);
 		return $new_vote_question;

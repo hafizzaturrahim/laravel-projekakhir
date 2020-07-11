@@ -21,17 +21,17 @@
 			<thead>
 				<tr>
 					<th>No.</th>
-					<th>Pertanyaan</th>
+					<th width="40%">Pertanyaan</th>
 					<th>Pembuat</th>
-					<th>Jumlah Jawaban</th>
-					<th width="20%">Actions</th>
+					<th class="text-center">Jumlah Jawaban</th>
+					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
 				@foreach ($question as $item)
 				<tr>
 					<td>{{$loop->iteration}} </td>
-					<td style="width: 40%;">
+					<td>
 						<a href="/jawaban/{{$item->id_question}} ">{{ $item->title }}</a>
 						<span class="description">{!! $item->description !!}</span>
 					</td>

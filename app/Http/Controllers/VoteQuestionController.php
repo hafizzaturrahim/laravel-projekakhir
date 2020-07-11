@@ -20,20 +20,41 @@ class VoteQuestionController extends Controller {
         $id_user = $request->input('id');
         if ($request->input('val') == 'up') {
             $value = 1;
-        }else{
+        }elseif($request->input('val') == 'down'){
             $value = 0;
+        }elseif($request->input('val') == 'clear_like'){ //jika val = clear
+            $value = -1;
+            $clearvote = VoteQuestionModel::delete_by_voter($id_question,$id_voter);
+            $rp = array(
+                'transaction'=> "Undo like by in question:". $id_question,
+                'point'=> -10,
+                'id' => $request->input('id'),
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            );
+        }else{
+            $value = -2;
+            $clearvote = VoteQuestionModel::delete_by_voter($id_question,$id_voter);
+            $rp = array(
+                'transaction'=> "Undo dislike by in question:". $id_question,
+                'point'=> 1,
+                'id' => $id_voter,
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            );
         }
+
         $data = array(
           'id_voter'=>$id_voter,
           'id_question'=>$id_question,
-          'value' => $value
-        );
+          'value' => $value);
 
         //cek untuk menghindari redundansi
-        $check = VoteQuestionModel::check_data($id_question,$data['id_voter']);
+        $check = VoteQuestionModel::check_data($id_question,$id_voter);
+
         if (!isset($check)) {
-            $question = VoteQuestionModel::save($data);
             if ($value == 1) {
+                $addvote = VoteQuestionModel::save($data);
                 $rp = array(
                     'transaction'=> "Liked in question:". $id_question,
                     'point'=> 10,
@@ -41,58 +62,59 @@ class VoteQuestionController extends Controller {
                     'created_at' => date("Y-m-d H:i:s"),
                     'updated_at' => date("Y-m-d H:i:s")
                 );
-            }else{
+            }elseif ($value == 0){
+                $addvote = VoteQuestionModel::save($data);
                 $rp = array(
-                    'transaction'=> "Disliked by in question:". $id_question,
+                    'transaction'=> "Disliked in question:". $id_question,
                     'point'=> -1,
                     'id' => $id_voter,
                     'created_at' => date("Y-m-d H:i:s"),
                     'updated_at' => date("Y-m-d H:i:s")
                 );
             }
-            $save_point = RepPointModel::save($rp);
-
         }else{
-         if ($check->value != $value) {
-            $question = VoteQuestionModel::update($data);
-            if ($value == 1) {
+            if ($check->value != $value) {
+                if ($value == 1) {
+                    $vote = VoteQuestionModel::update($data);
                     $rp = array(
                         [
-                        'transaction'=> "Change to liked in question:". $id_question,
-                        'point'=> 10,
-                        'id' => $request->input('id'),
-                        'created_at' => date("Y-m-d H:i:s"),
-                        'updated_at' => date("Y-m-d H:i:s")
+                            'transaction'=> "Change to liked in question:". $id_question,
+                            'point'=> 10,
+                            'id' => $request->input('id'),
+                            'created_at' => date("Y-m-d H:i:s"),
+                            'updated_at' => date("Y-m-d H:i:s")
                         ],
                         [
-                        'transaction'=> "Change to liked in question:". $id_question,
-                        'point'=> 1,
-                        'id' => $id_voter,
-                        'created_at' => date("Y-m-d H:i:s"),
-                        'updated_at' => date("Y-m-d H:i:s")
+                            'transaction'=> "Change to liked in question:". $id_question,
+                            'point'=> 1,
+                            'id' => $id_voter,
+                            'created_at' => date("Y-m-d H:i:s"),
+                            'updated_at' => date("Y-m-d H:i:s")
                         ]
                     );
-                }else{
+                }elseif($value == 0){
+                    $vote = VoteQuestionModel::update($data);
                     $rp = array(
                         [
-                        'transaction'=> "Change to disliked in question:". $id_question,
-                        'point'=> -10,
-                        'id' => $request->input('id'),
-                        'created_at' => date("Y-m-d H:i:s"),
-                        'updated_at' => date("Y-m-d H:i:s")
+                            'transaction'=> "Change to disliked in question:". $id_question,
+                            'point'=> -10,
+                            'id' => $request->input('id'),
+                            'created_at' => date("Y-m-d H:i:s"),
+                            'updated_at' => date("Y-m-d H:i:s")
                         ],
                         [
-                        'transaction'=> "Change to disliked in question:". $id_question,
-                        'point'=> -1,
-                        'id' => $id_voter,
-                        'created_at' => date("Y-m-d H:i:s"),
-                        'updated_at' => date("Y-m-d H:i:s")
+                            'transaction'=> "Change to disliked in question:". $id_question,
+                            'point'=> -1,
+                            'id' => $id_voter,
+                            'created_at' => date("Y-m-d H:i:s"),
+                            'updated_at' => date("Y-m-d H:i:s")
                         ]
                     );
                 }
-            $save_point = RepPointModel::save($rp);
+            }
         }
+        
+        $save_point = RepPointModel::save($rp);
+        return redirect()->action('AnswerController@index',$id_question);
     }
-    return redirect()->action('AnswerController@index',$id_question);
-}
 }
