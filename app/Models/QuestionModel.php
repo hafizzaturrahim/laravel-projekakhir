@@ -4,13 +4,21 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionModel{
 	public static function get_all(){
-		$question = DB::table('questions')->get();
+		$question = DB::table('questions')
+					->join('users', 'users.id', '=', 'questions.id')
+					->leftJoin('answers', 'answers.id_question', '=', 'questions.id_question')
+					->select('questions.*', 'name', 'photo', DB::raw('IFNULL(count(id_answer),0) as `jumlah_jawaban`'))
+					->groupBy('questions.id_question')
+					->get();
 		return $question;
 	}
 
 	public static function get_data_by_tags($key){
 		$result = DB::table('questions')
 					->join('users', 'users.id', '=', 'questions.id')
+					->leftJoin('answers', 'answers.id_question', '=', 'questions.id_question')
+					->select('questions.*', 'name', 'photo', DB::raw('IFNULL(count(id_answer),0) as `jumlah_jawaban`'))
+					->groupBy('questions.id_question')
 					->where('tags','like','%'.$key.'%')
 					->get();
 		//$result->tags = explode(" ",$result->tags);

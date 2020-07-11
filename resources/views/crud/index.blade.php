@@ -14,18 +14,16 @@
 @endsection
 
 @section('content')
-	<div class="card">
-
+<div class="card">
 	<!-- /.card-header -->
-	<div class="card-body">
-		<table id="example1" class="table table-bordered table-striped text-center">
+	<div class="card-body p-0">
+		<table id="example1" class="table table-striped">
 			<thead>
 				<tr>
 					<th>No.</th>
-					<th>Judul Pertanyaan</th>
 					<th>Pertanyaan</th>
-					<th>Tanggal Dibuat</th>
-					<th>Terakhir Diperbaruhi</th>
+					<th>Pembuat</th>
+					<th>Jumlah Jawaban</th>
 					<th width="20%">Actions</th>
 				</tr>
 			</thead>
@@ -33,10 +31,18 @@
 				@foreach ($question as $item)
 				<tr>
 					<td>{{$loop->iteration}} </td>
-					<td><a href="/jawaban/{{$item->id_question}} ">{{ $item->title }}</a></td>
-					<td class="text-left">{!! $item->description !!}</td>
-					<td>{{ $item->created_at }}</td>
-					<td>{{ $item->updated_at }}</td>
+					<td style="width: 40%;">
+						<a href="/jawaban/{{$item->id_question}} ">{{ $item->title }}</a>
+						<span class="description">{!! $item->description !!}</span>
+					</td>
+					<td>
+						<div class="user-block">
+							<img class="img-circle" src="{{asset('/adminlte/dist/img/user1-128x128.jpg')}}" alt="User Image">
+							<span class="username"><a>{{$item->name}}</a></span>
+							<span class="description"><i class="nav-icon far fa-calendar-alt"></i> {{ $item->created_at }}</span>
+						</div>
+					</td>
+					<td class="text-center"><h4>{{ $item->jumlah_jawaban }}</h4></td>
 					<td>
 						<a class="btn btn-sm btn-primary mr-2" href="/jawaban/{{$item->id_question}}">Show</a>
 						@if ($item->id == $id_user)

@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 class CommentQuestionModel{
 
 	public static function get_by_id_question($id){
-		$comments = DB::table('comment_questions')->get()->where('id_question',$id);
+		$comments = DB::table('comment_questions')->join('users', 'users.id', '=', 'comment_questions.id')->where('id_question',$id)->select('comment_questions.*', 'name', 'photo')->get();
 		return $comments;
 	}
 

@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 class CommentAnswerModel{
 
 	public static function get_all($id){
-		$comments = DB::table('comment_answers')->get();
+		$comments = DB::table('comment_answers')->join('users', 'users.id', '=', 'comment_answers.id')->select('comment_answers.*', 'name', 'photo')->get();
 		return $comments;
 	}
 
