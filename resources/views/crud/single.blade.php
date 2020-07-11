@@ -9,11 +9,7 @@
 	<div class="col-sm-6">
 		<h1>{{$data['question']->title}}</h1>
 	</div>
-	<div class="col-sm-6">
-		<ol class="breadcrumb float-right">
-			<a class="btn btn-primary" href="/pertanyaan">Daftar Pertanyaan</a>
-		</ol>
-	</div>
+
 </div>
 @endsection
 
@@ -134,6 +130,7 @@
 			@if($data['id'] != $item->id)
 			<p>
 				<span class="float-right mb-2">
+
 					<?php if (empty($data['best_answer'])) { 
 						if ($data['id'] == $data['question']->id) { ?>
 							<form action="/jawaban/{{$item->id_answer}}/best" method="POST" class="float-right mb-2">
@@ -148,8 +145,9 @@
 							</form>
 						
 					<?php }}else{
-						if ($item->best_answer == 1) { ?>
-							<form action="/jawaban/{{$item->id_answer}}/best" method="POST" class="float-right mb-2">
+						if ($item->best_answer == 1) { 
+							if ($data['id'] == $data['question']->id) { ?>
+								<form action="/jawaban/{{$item->id_answer}}/best" method="POST" class="float-right mb-2">
 								@csrf
 								@method('PUT')
 								<input type="hidden" name="best" value="0">
@@ -159,8 +157,10 @@
 								<input type="hidden" name="val" value="down">
 								<button type="submit" class="btn btn-success text-sm ml-2"><span class="text-sm mr-1">jawaban terbaik</span></button>
 							</form>
+							<?php }else {?>
+								<button class="btn btn-success text-sm ml-2"><span class="text-sm mr-1">terpilih sebagai jawaban terbaik</span></button>
 							
-						<?php }}?>
+					<?php }}}?>
 					
 
 					<form action="/jawaban/{{$item->id_answer}}/vote" method="POST" class="float-right mb-2">

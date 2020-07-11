@@ -18,8 +18,11 @@ class QuestionController extends Controller
     }
     
     public function index(){
+        $user = Auth::user();
+        $id_user = Auth::id();
+
     	$question = QuestionModel::get_all();
-    	return view('crud.index',compact('question'));
+    	return view('crud.index',compact('question','id_user'));
     }
 
     public function create(){

@@ -10,8 +10,6 @@ class RepPointModel{
 	}
 
 	public static function save($data){
-		$data['created_at'] = date("Y-m-d H:i:s");
-		$data['updated_at'] = date("Y-m-d H:i:s");
 		$new_question = DB::table('rep_points')->insert($data);
 		return $new_question;
 	}

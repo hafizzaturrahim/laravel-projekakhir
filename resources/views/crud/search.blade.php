@@ -15,14 +15,11 @@
 		<a href="/jawaban/{{$item->id_question}}">{{$item->title}}</a>
 	</div>
 	<div class="card-body">
-		<div class="user-block">
-			
 		<p>{!! $item->description !!}</p>
 
 		@foreach (explode(" ",$item->tags) as $tag)
 			<a class="btn btn-sm btn-info mr-1" href="/tags/{{$tag}}">{{ $tag }}</a>
 		@endforeach
-		</div>
 
 
 	</div>

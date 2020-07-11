@@ -38,13 +38,17 @@ class VoteAnswerController extends Controller
 				$rp = array(
 					'transaction'=> "Liked in answer:". $id_answer,
 					'point'=> 10,
-					'id' => $request->input('id')
+					'id' => $request->input('id'),
+					'created_at' => date("Y-m-d H:i:s"),
+					'updated_at' => date("Y-m-d H:i:s")
 				);
 			}else{
 				$rp = array(
 					'transaction'=> "Disliked in answer:". $id_answer,
 					'point'=> -1,
-					'id' => $id_voter
+					'id' => $id_voter,
+					'created_at' => date("Y-m-d H:i:s"),
+					'updated_at' => date("Y-m-d H:i:s")
 				);
 			}
 			$save_point = RepPointModel::save($rp);
@@ -56,28 +60,37 @@ class VoteAnswerController extends Controller
 						[
 						'transaction'=> "Change to liked in answer:". $id_answer,
 						'point'=> 10,
-						'id' => $request->input('id')
+						'id' => $request->input('id'),
+						'created_at' => date("Y-m-d H:i:s"),
+						'updated_at' => date("Y-m-d H:i:s")
 						],
 						[
 						'transaction'=> "Change to liked in answer:". $id_answer,
 						'point'=> 1,
-						'id' => $id_voter
+						'id' => $id_voter,
+						'created_at' => date("Y-m-d H:i:s"),
+						'updated_at' => date("Y-m-d H:i:s")
 						]
 					);
 				}else{
 					$rp = array(
 						[
-						'transaction'=> "Change to disliked by:in answer:". $id_answer,
+						'transaction'=> "Change to disliked in answer:". $id_answer,
 						'point'=> -10,
-						'id' => $request->input('id')
+						'id' => $request->input('id'),
+						'created_at' => date("Y-m-d H:i:s"),
+						'updated_at' => date("Y-m-d H:i:s")
 						],
 						[
-						'transaction'=> "Change to disliked by:in answer:". $id_answer,
+						'transaction'=> "Change to disliked in answer:". $id_answer,
 						'point'=> -1,
-						'id' => $id_voter
+						'id' => $id_voter,
+						'created_at' => date("Y-m-d H:i:s"),
+						'updated_at' => date("Y-m-d H:i:s")
 						]
 					);
 				}
+				//dd($rp);
 				$save_point = RepPointModel::save($rp);
 			}
 		}

@@ -81,22 +81,24 @@ class AnswerController extends Controller
         $id_question = $request->input('id_question');
         if ($request->input('val') == 'up') {
             $value = 15;
-        }else{
-            $value = 0;
-        }
-
-        // kondisi dalam memberikan nilai reputasi
-        if ($value != 0) {  
-            $data = array(
-                'transaction'=> "Best answer:". $id_answer,
+            $rp = array(
+                'transaction'=> "Best answer in:". $id_question,
                 'point'=> $value,
-                'id' => $request->input('id')
+                'id' => $request->input('id'),
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
             );
-            $rep = RepPointModel::save($data);
-        } else {
-            $data = array( 'transaction' => "Best answer:". $id_answer );
-            $save_point = RepPointModel::delete($data);
+        }else{
+            $value = -15;
+            $rp = array(
+                'transaction'=> "Remove best answer in:". $id_question,
+                'point'=> $value,
+                'id' => $request->input('id'),
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            );
         }
+        $rep = RepPointModel::save($rp);
 
         return redirect()->action('AnswerController@index',$id_question);
     }

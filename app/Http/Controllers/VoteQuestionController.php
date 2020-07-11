@@ -37,13 +37,17 @@ class VoteQuestionController extends Controller {
                 $rp = array(
                     'transaction'=> "Liked in question:". $id_question,
                     'point'=> 10,
-                    'id' => $request->input('id')
+                    'id' => $request->input('id'),
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
                 );
             }else{
                 $rp = array(
                     'transaction'=> "Disliked by in question:". $id_question,
                     'point'=> -1,
-                    'id' => $id_voter
+                    'id' => $id_voter,
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
                 );
             }
             $save_point = RepPointModel::save($rp);
@@ -56,12 +60,16 @@ class VoteQuestionController extends Controller {
                         [
                         'transaction'=> "Change to liked in question:". $id_question,
                         'point'=> 10,
-                        'id' => $request->input('id')
+                        'id' => $request->input('id'),
+                        'created_at' => date("Y-m-d H:i:s"),
+                        'updated_at' => date("Y-m-d H:i:s")
                         ],
                         [
                         'transaction'=> "Change to liked in question:". $id_question,
                         'point'=> 1,
-                        'id' => $id_voter
+                        'id' => $id_voter,
+                        'created_at' => date("Y-m-d H:i:s"),
+                        'updated_at' => date("Y-m-d H:i:s")
                         ]
                     );
                 }else{
@@ -69,12 +77,16 @@ class VoteQuestionController extends Controller {
                         [
                         'transaction'=> "Change to disliked in question:". $id_question,
                         'point'=> -10,
-                        'id_user' => $request->input('id')
+                        'id' => $request->input('id'),
+                        'created_at' => date("Y-m-d H:i:s"),
+                        'updated_at' => date("Y-m-d H:i:s")
                         ],
                         [
                         'transaction'=> "Change to disliked in question:". $id_question,
                         'point'=> -1,
-                        'id_voter' => $id_voter
+                        'id' => $id_voter,
+                        'created_at' => date("Y-m-d H:i:s"),
+                        'updated_at' => date("Y-m-d H:i:s")
                         ]
                     );
                 }

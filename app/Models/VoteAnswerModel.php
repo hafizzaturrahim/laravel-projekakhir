@@ -29,7 +29,7 @@ class VoteAnswerModel{
 	}
 
 	public static function save($data){
-		$new_vote_answer = DB::table('vote_answers')->insert($data);
+		$new_vote_answer = DB::table('vote_answers')->insertOrIgnore($data);
 		return $new_vote_answer;
 	}
 
