@@ -70,10 +70,11 @@ class AnswerController extends Controller
         return redirect()->action('AnswerController@index',$request->input('id_question'));
     }
 
-    public function destroy($id){
+    public function destroy(Request $request,$id){
     	$deleteVote = VoteAnswerModel::delete($id);
         $answer = AnswerModel::delete($id);
-        return redirect()->action('AnswerController@index',$id);
+        $comment = CommentAnswerModel::destroy_by_id_answer($id);
+        return redirect()->action('AnswerController@index',$request->input('id_question'));
     }
 
     public function set_best_answer(Request $request,$id_answer){
